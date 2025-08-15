@@ -1,3 +1,6 @@
+layout: page
+title: "population ecology interactive"
+permalink: [/URL-PATH](https://octocat.github.io/populationecology)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -733,4 +736,5 @@
   </script>
 </body>
 </html>
+
 
