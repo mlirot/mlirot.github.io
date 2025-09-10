@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence for Evolution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.5s ease-in-out;
+        }
+        .card {
+            display: none;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .card.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .answer-button {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .answer-button:hover {
+            background-color: #4338ca;
+            transform: scale(1.05);
+        }
+        .answer-button:active {
+            transform: scale(0.95);
+        }
+        .correct-answer {
+            background-color: #10b981;
+        }
+        .correct-answer:hover {
+            background-color: #059669;
+        }
+        .next-button {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .next-button:hover {
+            background-color: #1e40af;
+            transform: scale(1.05);
+        }
+        .next-button:active {
+            transform: scale(0.95);
+        }
+        .icon {
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Welcome Screen -->
+        <div id="welcome-card" class="card active">
+            <h1 class="text-3xl font-bold text-gray-800">🕵️ Evolution Detectives!</h1>
+            <p class="text-lg text-gray-600">
+                Let's explore the clues that show us how living things have changed over time.
+            </p>
+            <button id="start-button" class="next-button">Start</button>
+        </div>
+
+        <!-- Fossils Card -->
+        <div id="fossils-card" class="card">
+            <h2 class="question-text">Clue 1: Fossils</h2>
+            <p class="text-gray-700">Fossils are bones, shells, or imprints from really old plants and animals. They are like a history book written in stone that shows us how life has changed over a very long time.</p>
+            <div class="flex justify-center my-4">
+                <span class="icon">🦴</span>
+            </div>
+            <p class="text-xl font-bold text-gray-800">What can fossils help us understand?</p>
+            <button onclick="checkAnswer('fossils', 0)" class="answer-button">How animals play games</button>
+            <button onclick="checkAnswer('fossils', 1)" class="answer-button">What ancient animals looked like</button>
+            <button onclick="checkAnswer('fossils', 2)" class="answer-button">How fast a dinosaur ran</button>
+            <div id="fossils-feedback" class="text-lg font-bold mt-4"></div>
+            <button id="fossils-next" class="next-button mt-4" style="display:none;" onclick="showNextCard()">Next</button>
+        </div>
+
+        <!-- Anatomy Card -->
+        <div id="anatomy-card" class="card">
+            <h2 class="question-text">Clue 2: Body Parts</h2>
+            <p class="text-gray-700">Look at a bat's wing and a human's arm. Even though they are used for different things (flying and grabbing), they have the same pattern of bones inside. This is a big clue that bats and humans might be related from a common ancestor!</p>
+            <div class="flex justify-center my-4">
+                <span class="icon">🦇🐾</span>
+            </div>
+            <p class="text-xl font-bold text-gray-800">What are these similar body parts called?</p>
+            <button onclick="checkAnswer('anatomy', 0)" class="answer-button">Random parts</button>
+            <button onclick="checkAnswer('anatomy', 1)" class="answer-button">Homologous structures</button>
+            <button onclick="checkAnswer('anatomy', 2)" class="answer-button">Flying structures</button>
+            <div id="anatomy-feedback" class="text-lg font-bold mt-4"></div>
+            <button id="anatomy-next" class="next-button mt-4" style="display:none;" onclick="showNextCard()">Next</button>
+        </div>
+
+        <!-- Embryology Card -->
+        <div id="embryology-card" class="card">
+            <h2 class="question-text">Clue 3: Baby Growth</h2>
+            <p class="text-gray-700">When different animals are just starting to grow inside an egg or a mother, they can look surprisingly similar. This shows they might share an ancestor!</p>
+            <div class="flex justify-center my-4">
+                <span class="icon">🐣</span>
+            </div>
+            <p class="text-xl font-bold text-gray-800">What does it mean if baby animals look similar?</p>
+            <button onclick="checkAnswer('embryology', 0)" class="answer-button">They like the same food.</button>
+            <button onclick="checkAnswer('embryology', 1)" class="answer-button">They will grow up to be the same animal.</button>
+            <button onclick="checkAnswer('embryology', 2)" class="answer-button">They might be related to each other.</button>
+            <div id="embryology-feedback" class="text-lg font-bold mt-4"></div>
+            <button id="embryology-next" class="next-button mt-4" style="display:none;" onclick="showNextCard()">Next</button>
+        </div>
+
+        <!-- DNA Card -->
+        <div id="dna-card" class="card">
+            <h2 class="question-text">Clue 4: DNA</h2>
+            <p class="text-gray-700">DNA is like a secret code inside every living thing. Animals with very similar DNA codes are very closely related, like you and your family! For example, humans and chimpanzees share a huge amount of their DNA code.</p>
+            <div class="flex justify-center my-4">
+                <span class="icon">🧬</span>
+            </div>
+            <p class="text-xl font-bold text-gray-800">Which animals have the most similar DNA?</p>
+            <button onclick="checkAnswer('dna', 0)" class="answer-button">A dog and a fish.</button>
+            <button onclick="checkAnswer('dna', 1)" class="answer-button">A human and a banana.</button>
+            <button onclick="checkAnswer('dna', 2)" class="answer-button">A human and a chimpanzee.</button>
+            <div id="dna-feedback" class="text-lg font-bold mt-4"></div>
+            <button id="dna-next" class="next-button mt-4" style="display:none;" onclick="showNextCard()">Next</button>
+        </div>
+
+        <!-- Resistance Card -->
+        <div id="resistance-card" class="card">
+            <h2 class="question-text">Clue 5: Resistance</h2>
+            <p class="text-gray-700">Sometimes, we use medicine or bug spray to get rid of germs or bugs. A few of them might survive because they are a little different. These survivors then have babies that are also resistant, and over time, the medicine or spray stops working. This is a fast example of evolution!</p>
+            <div class="flex justify-center my-4">
+                <span class="icon">🐞</span>
+            </div>
+            <p class="text-xl font-bold text-gray-800">What happens to the bugs that survive the spray?</p>
+            <button onclick="checkAnswer('resistance', 0)" class="answer-button">They get stronger and pass their strength to their babies.</button>
+            <button onclick="checkAnswer('resistance', 1)" class="answer-button">They go away forever.</button>
+            <button onclick="checkAnswer('resistance', 2)" class="answer-button">They learn how to fly faster.</button>
+            <div id="resistance-feedback" class="text-lg font-bold mt-4"></div>
+            <button id="resistance-next" class="next-button mt-4" style="display:none;" onclick="showNextCard()">Next</button>
+        </div>
+
+        <!-- Final Card -->
+        <div id="final-card" class="card">
+            <h2 class="question-text">Great Job, Detective!</h2>
+            <p class="text-lg text-gray-600">You've found all the clues and learned about the evidence for evolution. You are an expert now!</p>
+            <div class="flex justify-center my-4">
+                <span class="icon">🎉</span>
+            </div>
+            <button id="restart-button" class="next-button">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const cards = ['welcome-card', 'fossils-card', 'anatomy-card', 'embryology-card', 'dna-card', 'resistance-card', 'final-card'];
+        let currentCardIndex = 0;
+
+        document.getElementById('start-button').addEventListener('click', () => {
+            showNextCard();
+        });
+
+        document.getElementById('restart-button').addEventListener('click', () => {
+            currentCardIndex = 0;
+            showNextCard();
+        });
+        
+        // This makes sure the first card is visible when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            showCard(currentCardIndex);
+        });
+
+        function showCard(index) {
+            cards.forEach((cardId, i) => {
+                const card = document.getElementById(cardId);
+                if (i === index) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        function showNextCard() {
+            currentCardIndex++;
+            showCard(currentCardIndex);
+        }
+
+        function checkAnswer(topic, answerIndex) {
+            let feedbackElement = document.getElementById(topic + '-feedback');
+            let nextButton = document.getElementById(topic + '-next');
+            let isCorrect = false;
+
+            // Simple logic for which answer is correct
+            if (topic === 'fossils' && answerIndex === 1) {
+                isCorrect = true;
+            } else if (topic === 'anatomy' && answerIndex === 1) {
+                isCorrect = true;
+            } else if (topic === 'embryology' && answerIndex === 2) {
+                isCorrect = true;
+            } else if (topic === 'dna' && answerIndex === 2) {
+                isCorrect = true;
+            } else if (topic === 'resistance' && answerIndex === 0) {
+                isCorrect = true;
+            }
+
+            if (isCorrect) {
+                feedbackElement.textContent = "Correct! You got it right!";
+                feedbackElement.style.color = '#10b981';
+                nextButton.style.display = 'block';
+            } else {
+                feedbackElement.textContent = "Oops, not quite. Try again!";
+                feedbackElement.style.color = '#ef4444';
+            }
+        }
+    </script>
+
+</body>
+</html>
